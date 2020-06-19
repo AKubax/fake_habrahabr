@@ -6,11 +6,16 @@ import 'package:flutter/material.dart';
 
 class ArticlesManager {
   static Article getArticleById(int id) {
-    return getDummyArticle();
+    return getDummyArticle(titleSuffix: ' #' + id.toString());
   }
 
-  static Article getDummyArticle() => Article(-1, User('akubaxx', AssetImage('src/placeholder_profile_picture.png'),
-  3), 'Roses are blue', '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula turpis sem. Proin interdum tortor id 
+  static Article getDummyArticle({String titleSuffix}) => Article(-1, User('akubaxx', AssetImage
+    ('src/placeholder_profile_picture.png'),
+  3), 'Roses are blue' + (titleSuffix ?? ''), '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+  Aliquam 
+  vehicula turpis 
+  sem. 
+  Proin interdum tortor id 
     convallis feugiat. Quisque sit amet imperdiet elit. Cras egestas dolor vel arcu auctor, eget 
     ullamcorpergfdsgfdsgfds mauris eleifend. Vestibulum id ligula nec ex ultrices convallis ut vitae enim. Sed pretium vel eros bibendum pellentesque. Donec tempus, lorem nec tempor mattis, nunc lacus finibus urna, vitae scelerisque urna enim vitae odio. Sed venenatis ante eu lacinia porta. Praesent ante ligula, sollicitudin nec consectetur non, tempor ac felis. Fusce molestie egestas purus, vel dignissim arcu.
     In sagittis velit vitae dapibus rhoncus. Cras a odio augue. Proin vulputate orci ut porta consectetur. Integer non tincidunt libero, quis eleifend sapien. Integer dignissim porttitor ultricies. Sed consectetur eget sem non posuere. Curabitur porta vestibulum dictum. In blandit est et faucibus tristique. Praesent convallis ex non mattis consectetur. Nullam a nisl elit.

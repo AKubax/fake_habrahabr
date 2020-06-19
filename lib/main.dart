@@ -1,21 +1,7 @@
-import 'package:fake_habrahabr/Views/ArticleList.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'Views/TheApp.dart';
 
-class MyApp extends StatelessWidget {
+void main() => runApp(TheApp());
 
-  @override
-  Widget build(BuildContext context){
-    return MaterialApp(
-      title: 'Fake Habr',
-      theme: ThemeData(primaryColor: Colors.white),
-      home: Scaffold(
-        body: Center(
-          child: ArticlesListView(),
-        ),
-      )
-    );
-  }
 
-}
