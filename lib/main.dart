@@ -2,6 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'Views/TheApp.dart';
 
-void main() => runApp(TheApp());
+void main() => runApp(Center(child: TheApp()));
 
 

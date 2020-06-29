@@ -1,7 +1,6 @@
 import 'package:fake_habrahabr/Controller/ArticlesManager.dart';
 import 'package:fake_habrahabr/Models/Article.dart';
 import 'package:fake_habrahabr/Views/TheApp.dart';
-import 'package:fake_habrahabr/Views/single_article_view.dart';
 import 'package:fake_habrahabr/Views/views_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,26 +10,66 @@ import 'package:provider/provider.dart';
 
 class ArticlesListView extends StatelessWidget{
 
+  /*
   @override
-  Widget build(context) => ListView.builder(itemBuilder: (context, i) => GestureDetector(
-    onTapDown: (_) => Provider.of<CurrentArticleContainer>(context, listen: false).article_id = i,
-    child: ArticleCard(i),
-  ));
+  Widget build(context) => Scaffold(
+    body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text("akubaxx's News App"),
+            ),
+            floating: true
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+              (context, i) => ArticleCard(i),
+          ),
+        ),
+      ],
+    ),
+  );
+  */
+
+  @override
+  Widget build(context) => Scaffold(
+    appBar: AppBar(
+        title: Row(children: [
+          Icon(Icons.terrain, size: 50),
+          SizedBox(width: 10),
+          Text("akubaxx's News App"),
+        ])
+    ),
+    body: ListView.builder(itemBuilder: (context, i) => GestureDetector(
+      onTapDown: (_) => Provider.of<CurrentArticleContainer>(context, listen: false).article_id = i,
+      child: ArticleCard(i),
+    )),
+  );
+}
+
+class ArticleCard extends StatefulWidget{
+  final int article_id;
+
+  ArticleCard(this.article_id, {Key key}) : super(key: key);
+
+  @override
+  State<ArticleCard> createState() => _ArticleCardState(article_id);
 }
 
 
-
-class ArticleCard extends StatelessWidget{
+class _ArticleCardState extends State<ArticleCard>{
   final int _article_id;
   Article _article;
 
-  ArticleCard(this._article_id, {Key key}) : super(key: key){
-    _article = ArticlesManager.getArticleById(_article_id);
+  _ArticleCardState(this._article_id, {Key key}){
+    ArticlesManager.getArticleByChronoOrder(_article_id).then((article) => setState((){
+      _article = article;
+    }),);
   }
 
   @override
   Widget build(context){
-    return _article == null ? Container() : Container(
+    return _article == null ? Container(color: Colors.red, width: 50, height: 50,) : Container(
       margin: EdgeInsets.all(5),
 
       decoration: BoxDecoration(

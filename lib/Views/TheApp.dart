@@ -13,38 +13,55 @@ class CurrentArticleContainer extends ChangeNotifier{
 
   set article_id(int id) => _id = id;
 
-  set article(Article article){
+  /* set article(Article article){
     _id = article.id;
     notifyListeners();
-  }
-  Article get article => ArticlesManager.getArticleById(_id);
+  } */
+
+  Future<Article> get article async => ArticlesManager.getArticleByChronoOrder(_id);
 }
 
-class TheApp extends StatelessWidget{
+class TheApp extends StatefulWidget{
+
+  static bool alreadyCreated = false;
+  static final GlobalKey _theAppKey = GlobalKey<TheAppState>();
+
+  TheApp._inner() : super(key: _theAppKey);
+
+  factory TheApp() => alreadyCreated ? null : TheApp._inner();
+
+  @override
+  void dispose() => alreadyCreated = false;
+
+  @override
+  State<StatefulWidget> createState() => TheAppState(_theAppKey);
+}
+
+class TheAppState extends State<TheApp> with SingleTickerProviderStateMixin{
+  final GlobalKey<TheAppState> _theAppKey;
+  TabController tabController;
+
+  TheAppState(this._theAppKey);
+
+  @override
+  void initState(){
+    tabController = TabController(vsync: this, length: 2);
+  }
 
   @override
   Widget build(context) => ChangeNotifierProvider(
     create: (context) => CurrentArticleContainer(),
     child: MaterialApp(
-        title: 'Fake News',
-        theme: ThemeData(
-          primaryColor: Colors.white,
-        ),
-        home: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            body: TabBarView(children: [
-              ArticlesListView(),
-              SingleArticleView()
-            ],),
-          )
-        ),
+      title: 'Fake News',
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
+      home: Scaffold(
+        body: TabBarView(controller: tabController, children: [
+          ArticlesListView(),
+          SingleArticleView(_theAppKey),
+        ],),
+      )
     ),
   );
 }
-
-/*
-Scaffold(
-            body: ArticlesListView()//SingleArticleView(article: ArticlesManager.getDummyArticle()),
-        )
- */
